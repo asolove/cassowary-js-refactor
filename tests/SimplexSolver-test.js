@@ -19,10 +19,20 @@ define([
 		it('should be constructable without args', function () {
 			new c.SimplexSolver();
 		});
+    });
 
-		// FIXME(slightlyoff): MOAR TESTS
-		describe('addPointStays', function () {
+  describe("addEditVar", function() {
+    it("works with required strength", function() {
+      var solver = new c.SimplexSolver();
+      var thingy = new c.Variable({ name: "thingy", value: 0 });
+      solver.addConstraint(new c.StayConstraint(thingy, c.Strength.strong, 0));
+      solver.resolve();
 
-		});
-	});
+      solver.addEditVar(thingy, c.Strength.required)
+        .beginEdit()
+        .suggestValue(thingy, 2).resolve();
+
+      t.is(2, thingy.value);
+    });
+  });
 });
