@@ -24,18 +24,19 @@ define([
   describe("addEditVar", function() {
     it("works with required strength", function() {
       var solver = new c.SimplexSolver();
-      var a = new c.Variable({ name: "a", value: 0 });
-      var b = new c.Variable({ name: "b", value: 0 });
+      var a = new c.Variable({ name: "a" });
   
-      solver.addConstraint(new c.Equation(c.times(2, a), b, c.Strength.required, 0));
+      solver.addConstraint(new c.StayConstraint(a, c.Strength.strong, 0));
       solver.resolve();
+
+      assert.equal(0, a.value);
 
       solver.addEditVar(a, c.Strength.required)
         .beginEdit()
-        .suggestValue(a, 2).resolve();
+        .suggestValue(a, 2)
+        .resolve();
 
-      t.is(2, a.value);
-      t.is(4, b.value);
+      assert.equal(2, a.value);
     });
   });
 });
