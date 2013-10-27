@@ -19,24 +19,24 @@ define([
 		it('should be constructable without args', function () {
 			new c.SimplexSolver();
 		});
-    });
+	});
 
-  describe("addEditVar", function() {
-    it("works with required strength", function() {
-      var solver = new c.SimplexSolver();
-      var a = new c.Variable({ name: "a" });
-  
-      solver.addConstraint(new c.StayConstraint(a, c.Strength.strong, 0));
-      solver.resolve();
+	describe("addEditVar", function() {
+		it("works with required strength", function() {
+			var solver = new c.SimplexSolver();
+			var a = new c.Variable({ name: "a" });
 
-      assert.equal(0, a.value);
+			solver.addConstraint(new c.StayConstraint(a, c.Strength.strong, 0));
+			solver.resolve();
 
-      solver.addEditVar(a, c.Strength.required)
-        .beginEdit()
-        .suggestValue(a, 2)
-        .resolve();
+			assert.equal(0, a.value);
 
-      assert.equal(2, a.value);
-    });
-  });
+			solver.addEditVar(a, c.Strength.required)
+				.beginEdit()
+				.suggestValue(a, 2)
+				.resolve();
+
+			assert.equal(2, a.value);
+		});
+	});
 });
